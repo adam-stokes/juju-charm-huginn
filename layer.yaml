@@ -1,1 +1,1 @@
-includes: ['layer:basic', 'layer:layers/nginx', 'layer:layers/ruby', 'layer:nodejs']
+includes: ['layer:basic', 'layer:nginx', 'layer:ruby', 'layer:nodejs']
