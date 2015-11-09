@@ -24,11 +24,6 @@ config = hookenv.config()
 
 
 # HOOKS -----------------------------------------------------------------------
-@hook('install')
-def install():
-    apt_install(['git'])
-
-
 @hook('config-changed')
 def config_changed():
 
@@ -49,7 +44,8 @@ def install_app():
     hookenv.log('Installing Huginn', 'info')
 
     # Configure NGINX vhost
-    nginxlib.configure_site('default', 'vhost.conf')
+    nginxlib.configure_site('default', 'vhost.conf',
+                            app_path=ruby_dist_dir())
 
     # Update application
     huginnlib.download_archive()
@@ -68,7 +64,7 @@ def setup_mysql(mysql):
     """
     hookenv.status_set('maintenance', 'Huginn is connecting to MySQL!')
     target = path.join(ruby_dist_dir(), '.env')
-    render(source='db.env',
+    render(source='application.env',
            target=target,
            context=dict(db=mysql))
 

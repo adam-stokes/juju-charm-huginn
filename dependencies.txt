@@ -1,0 +1,7 @@
+runit
+graphviz
+python-docutils
+logrotate
+libncurses5-dev
+libmysqlclient-dev
+mysql-client
