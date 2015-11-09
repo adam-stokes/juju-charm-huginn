@@ -16,7 +16,7 @@ import nginxlib
 # ./lib/rubylib
 from rubylib import ruby_dist_dir, bundle
 
-# ./lib/dokuwikilib.py
+# ./lib/huginnlib.py
 import huginnlib
 
 config = hookenv.config()
