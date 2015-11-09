@@ -54,6 +54,8 @@ def install_app():
           "%(dir)s/config/unicorn.rb" % {'dir': ruby_dist_dir()})
 
     bundle("install --deployment --without development test")
+    bundle("exec rake assets:precompile RAILS_ENV=production")
+
     host.service_restart('nginx')
     hookenv.status_set('active', 'Huginn is installed!')
 
@@ -71,6 +73,5 @@ def setup_mysql(mysql):
     bundle("exec rake db:create RAILS_ENV=production")
     bundle("exec rake db:migrate RAILS_ENV=production")
     bundle("exec rake db:seed RAILS_ENV=production")
-    bundle("exec rake assets:precompile RAILS_ENV=production")
     host.service_restart('nginx')
     hookenv.status_set('active', 'Ready')

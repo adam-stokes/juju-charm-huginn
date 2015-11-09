@@ -9,3 +9,6 @@ description: |
   server. You always know who has your data. You do.
 maintainers: ['Adam Stokes <adam.stokes@ubuntu.com>']
 tags: ['ruby', 'monitoring']
+requires:
+  database:
+    interface: mysql
