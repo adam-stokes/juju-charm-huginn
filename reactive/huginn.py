@@ -8,7 +8,6 @@ from charms.reactive import (
 import os.path as path
 from charmhelpers.core import hookenv, host
 from charmhelpers.core.templating import render
-from charmhelpers.fetch import apt_install
 from shell import shell
 
 # ./lib/nginxlib
@@ -29,6 +28,11 @@ def config_changed():
 
     if not is_state('nginx.available'):
         return
+
+    target = path.join(ruby_dist_dir(), '.env.local')
+    render(source='app.env',
+           target=target,
+           context=config)
 
     host.service_restart('nginx')
     hookenv.status_set('active', 'Ready')
@@ -71,8 +75,8 @@ def setup_mysql(mysql):
     """ Mysql is available, update Huginn
     """
     hookenv.status_set('maintenance', 'Huginn is connecting to MySQL!')
-    target = path.join(ruby_dist_dir(), '.env')
-    render(source='application.env',
+    target = path.join(ruby_dist_dir(), '.env.local')
+    render(source='db.env',
            target=target,
            context=dict(db=mysql))
 
