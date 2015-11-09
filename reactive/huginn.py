@@ -8,6 +8,7 @@ from charms.reactive import (
 import os.path as path
 from charmhelpers.core import hookenv, host
 from charmhelpers.core.templating import render
+from charmhelpers.fetch import apt_install
 from shell import shell
 
 # ./lib/nginxlib
@@ -23,6 +24,11 @@ config = hookenv.config()
 
 
 # HOOKS -----------------------------------------------------------------------
+@hook('install')
+def install():
+    apt_install(['git'])
+
+
 @hook('config-changed')
 def config_changed():
 
@@ -47,9 +53,9 @@ def install_app():
 
     # Update application
     huginnlib.download_archive()
-    shell("mkdir -p {}/{log,tmp/pids,tmp/sockets}".format(ruby_dist_dir()))
-    shell("cp {}/config/unicorn.rb.example "
-          "{}/config/unicorn.rb".format(ruby_dist_dir()))
+    shell("mkdir -p %s/{log,tmp/pids,tmp/sockets}" % (ruby_dist_dir()))
+    shell("cp %(dir)s/config/unicorn.rb.example "
+          "%(dir)s/config/unicorn.rb" % {'dir': ruby_dist_dir()})
 
     bundle("install --deployment --without development test")
     host.service_restart('nginx')

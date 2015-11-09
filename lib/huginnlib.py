@@ -10,12 +10,15 @@ def download_archive():
     Downloads Huginn
     """
     hookenv.log("Cloning Huginn", "info")
-    if not path.isdir(ruby_dist_dir()):
-        makedirs(path.dirname(ruby_dist_dir()))
+    dist_dir = ruby_dist_dir()
+    if not path.isdir(dist_dir):
+        parent_dir = path.dirname(dist_dir)
+        if not path.isdir(parent_dir):
+            makedirs(parent_dir)
         git("clone --depth 1 https://github.com/cantino/huginn.git "
-            "-b master {}".format(ruby_dist_dir()))
+            "-b master {}".format(dist_dir))
     else:
-        chdir(ruby_dist_dir())
+        chdir(dist_dir)
         git("pull")
 
 
