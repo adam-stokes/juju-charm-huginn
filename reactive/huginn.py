@@ -54,6 +54,12 @@ def install_app():
           "%(dir)s/config/unicorn.rb" % {'dir': ruby_dist_dir()})
 
     bundle("install --deployment --without development test")
+    procfile = path.join(hookenv.charm_dir(), 'templates/Procfile')
+    shell("cp %(procfile)s %(dir)s/Procfile" % {
+        'procfile': procfile,
+        'dir': ruby_dist_dir()
+    })
+
     bundle("exec rake assets:precompile RAILS_ENV=production")
 
     host.service_restart('nginx')
