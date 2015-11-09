@@ -1,0 +1,9 @@
+options:
+  ruby-version:
+    default: '2.2.0'
+    type: string
+    description: Ruby version for Huginn
+  app-path:
+    default: '/srv/huginn'
+    type: string
+    description: Huginn application path
